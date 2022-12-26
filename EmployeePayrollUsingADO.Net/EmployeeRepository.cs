@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -12,7 +13,7 @@ namespace EmployeePayrollUsingADO.Net
     {
         public static string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=PayrollService;Integrated Security=True;";
         SqlConnection connection = new SqlConnection(connectionString);
-        
+
         /// <summary>
         /// Check connection with data base
         /// </summary>
@@ -24,7 +25,7 @@ namespace EmployeePayrollUsingADO.Net
                 Console.WriteLine("Connection Established");
                 this.connection.Close();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("Connection not established");
                 Console.WriteLine(ex.Message);
@@ -81,6 +82,47 @@ namespace EmployeePayrollUsingADO.Net
             finally
             {
                 this.connection.Close();
+            }
+        }
+
+        /// <summary>
+        /// Adding data to DB and usig StoredProcedure AddEmployee
+        /// </summary>
+        /// <param name="employeeModel"></param>
+        /// <exception cref="Exception"></exception>
+        public void AddEmployee(EmployeeModel employeeModel)
+        {
+            SqlConnection connection = null;
+            try
+            {
+                using (connection=new SqlConnection(connectionString))
+                {
+                    // not initializing ID becayse id is in auto increament and Address is default
+                    SqlCommand cmd = new SqlCommand("AddEmployee", connection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Name", employeeModel.Name);
+                    cmd.Parameters.AddWithValue("@Phone", employeeModel.Phone);
+                    cmd.Parameters.AddWithValue("@Department", employeeModel.Department);
+                    cmd.Parameters.AddWithValue("@gender", employeeModel.gender);
+                    cmd.Parameters.AddWithValue("@BasicPay", employeeModel.BasicPay);
+                    cmd.Parameters.AddWithValue("@Deductions", employeeModel.Deductions);
+                    cmd.Parameters.AddWithValue("@TaxablePay", employeeModel.TaxablePay);
+                    cmd.Parameters.AddWithValue("@IncomeTax", employeeModel.IncomeTax);
+                    cmd.Parameters.AddWithValue("@NetPay", employeeModel.NetPay);
+                    cmd.Parameters.AddWithValue("@StartDate", DateTime.Now);
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                    Console.WriteLine("Added succesfully");
+                    connection.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                connection.Close();
             }
         }
     }
