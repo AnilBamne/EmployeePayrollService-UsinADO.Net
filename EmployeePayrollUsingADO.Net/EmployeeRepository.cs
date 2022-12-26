@@ -201,6 +201,7 @@ namespace EmployeePayrollUsingADO.Net
                             Console.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}", employeeModel.ID, employeeModel.Name, employeeModel.BasicPay,
                                 employeeModel.StartDate, employeeModel.gender, employeeModel.Phone, employeeModel.Department, employeeModel.Address, employeeModel.Deductions
                                 , employeeModel.TaxablePay, employeeModel.IncomeTax, employeeModel.NetPay);
+                            Console.WriteLine();
                         }
                     }
                     else
@@ -217,6 +218,156 @@ namespace EmployeePayrollUsingADO.Net
             finally
             {
                 this.connection.Close();
+            }
+        }
+
+        /// <summary>
+        /// Aggrigate function SUM ,
+        /// calculating sum of salary group by gender
+        /// </summary>
+        public void GetSumOfSalary()
+        {
+            try
+            {
+                EmployeeModel employeeModel = new EmployeeModel();
+                using (this.connection)
+                {
+                    string quary = @"Select Gender,Sum(BasicPay) as Sum From EmployeePayroll group by Gender;";
+                    SqlCommand sqlCommand = new SqlCommand(quary, this.connection);
+                    this.connection.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            employeeModel.gender = reader.GetString(0);
+                            employeeModel.BasicPay = reader.GetDouble(1);
+                            Console.WriteLine("For Gender {0} sum of salary is {1}", employeeModel.gender, employeeModel.BasicPay);
+                        }
+                        Console.WriteLine();
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data found");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Aggrigate function MAX ,
+        /// retriving Max salary group by gender
+        /// </summary>
+        public void GetMaxSalaryGroupByGender()
+        {
+            try
+            {
+                EmployeeModel employeeModel = new EmployeeModel();
+                using (this.connection)
+                {
+                    string quary = @"Select Gender,MAX(BasicPay) as Max From EmployeePayroll group by Gender;";
+                    SqlCommand sqlCommand = new SqlCommand(quary, this.connection);
+                    this.connection.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            employeeModel.gender = reader.GetString(0);
+                            employeeModel.BasicPay = reader.GetDouble(1);
+                            Console.WriteLine("For Gender {0} max salary is {1}", employeeModel.gender, employeeModel.BasicPay);
+                        }
+                        Console.WriteLine();
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data found");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Aggrigate function MIN ,
+        /// retriving MIN salary group by gender
+        /// </summary>
+        public void GetMinSalaryGroupByGender()
+        {
+            try
+            {
+                EmployeeModel employeeModel = new EmployeeModel();
+                using (this.connection)
+                {
+                    string quary = @"Select Gender,MIN(BasicPay) as Min From EmployeePayroll group by Gender;";
+                    SqlCommand sqlCommand = new SqlCommand(quary, this.connection);
+                    this.connection.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            employeeModel.gender = reader.GetString(0);
+                            employeeModel.BasicPay = reader.GetDouble(1);
+                            Console.WriteLine("For Gender {0} min salary is {1}", employeeModel.gender, employeeModel.BasicPay);
+                        }
+                        Console.WriteLine();
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data found");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        /// <summary>
+        /// Aggrigate function AVG ,
+        /// retriving MIN salary group by gender
+        /// </summary>
+        public void GetAvgSalaryGroupByGender()
+        {
+            try
+            {
+                EmployeeModel employeeModel = new EmployeeModel();
+                using (this.connection)
+                {
+                    string quary = @"Select Gender,AVG(BasicPay) as Avg From EmployeePayroll group by Gender;";
+                    SqlCommand sqlCommand = new SqlCommand(quary, this.connection);
+                    this.connection.Open();
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            employeeModel.gender = reader.GetString(0);
+                            employeeModel.BasicPay = reader.GetDouble(1);
+                            Console.WriteLine("For Gender {0} avg salary is {1}", employeeModel.gender, employeeModel.BasicPay);
+                        }
+                        Console.WriteLine();
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data found");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
         }
     }
