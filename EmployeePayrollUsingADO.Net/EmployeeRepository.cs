@@ -63,7 +63,9 @@ namespace EmployeePayrollUsingADO.Net
                             employeeModel.TaxablePay = sqlDataReader.GetDouble(9);
                             employeeModel.IncomeTax = sqlDataReader.GetDouble(10);
                             employeeModel.NetPay = sqlDataReader.GetDouble(11);
-                            Console.WriteLine("{0},{1},{2},{3},{4},{5}", employeeModel.ID, employeeModel.Name, employeeModel.BasicPay, employeeModel.StartDate, employeeModel.gender, employeeModel.Phone);
+                            Console.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}", employeeModel.ID, employeeModel.Name, employeeModel.BasicPay, 
+                                employeeModel.StartDate, employeeModel.gender, employeeModel.Phone,employeeModel.Department,employeeModel.Address,employeeModel.Deductions
+                                ,employeeModel.TaxablePay,employeeModel.IncomeTax,employeeModel.NetPay);
                             Console.WriteLine("\n");
                         }
                     }
