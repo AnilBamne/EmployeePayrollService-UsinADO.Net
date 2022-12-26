@@ -7,7 +7,7 @@ namespace EmployeePayrollUsingADO.Net
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Employrr Payroll Service Using ADO.Net");
-            Console.WriteLine("Choose option \n1 Check connection\n2 Retrive data from DB\n3 Add data to DB\n4 Retrive data after insertion");
+            Console.WriteLine("Choose option \n1 Check connection\n2 Retrive data from DB\n3 Add data to DB\n4 Retrive data after insertion\n5 GetSalaryDataFromPerticularEmployee");
             EmployeeRepository employeeRepository = new EmployeeRepository();
             int option=int.Parse(Console.ReadLine());
             switch (option)
@@ -38,6 +38,13 @@ namespace EmployeePayrollUsingADO.Net
                 case 4:
                     //uc4 retrive data after insertion DB
                     employeeRepository.GetAllEmployee();
+                    break;
+                case 5:
+                    //Get Salary Data From  Perticular Employee
+                    employeeRepository.GetSalaryDataFromPerticularEmployee();
+                    break;
+                case 6:
+                    
                     break;
 
             }

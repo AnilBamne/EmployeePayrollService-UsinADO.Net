@@ -127,5 +127,45 @@ namespace EmployeePayrollUsingADO.Net
                 connection.Close();
             }
         }
+
+        /// <summary>
+        /// Get Salary Data From  Perticular Employee
+        /// </summary>
+        public void GetSalaryDataFromPerticularEmployee()
+        {
+            try
+            {
+                EmployeeModel employeeModel = new EmployeeModel();
+                using (this.connection)
+                {
+                    string query = @"select Name,BasicPay from EmployeePayroll where ID = 3;";
+                    SqlCommand sqlCommand = new SqlCommand(query, this.connection);
+                    this.connection.Open();
+                    SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+                    if (sqlDataReader.HasRows)
+                    {
+                        while (sqlDataReader.Read())
+                        {
+                            employeeModel.Name = sqlDataReader.GetString(0);
+                            employeeModel.BasicPay = sqlDataReader.GetDouble(1);
+                            Console.WriteLine($"For ID=3 the employee name is:{employeeModel.Name} and Salary is :{employeeModel.BasicPay}");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data found");
+                    }
+                    this.connection.Close();
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
     }
 }
