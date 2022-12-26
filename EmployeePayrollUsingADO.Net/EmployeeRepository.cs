@@ -167,5 +167,57 @@ namespace EmployeePayrollUsingADO.Net
                 this.connection.Close();
             }
         }
+
+        /// <summary>
+        /// GetPerticularEmployeeBetweenDates
+        /// </summary>
+        public void GetPerticularEmployeeBetweenDates()
+        {
+            try
+            {
+                EmployeeModel employeeModel = new EmployeeModel();
+                using (this.connection)
+                {
+                    string query = @"select * from EmployeePayroll where StartDate between CAST('2020-01-01' as date) AND CAST('2022-12-01' as date);";
+                    SqlCommand sqlCommand = new SqlCommand(query, this.connection);
+                    this.connection.Open();
+                    SqlDataReader sqlDataReader = sqlCommand.ExecuteReader();
+                    if (sqlDataReader.HasRows)
+                    {
+                        while (sqlDataReader.Read())
+                        {
+                            employeeModel.ID = sqlDataReader.GetInt32(0);
+                            employeeModel.Name = sqlDataReader.GetString(1);
+                            employeeModel.BasicPay = sqlDataReader.GetDouble(2);
+                            employeeModel.StartDate = sqlDataReader.GetDateTime(3);
+                            employeeModel.gender = sqlDataReader.GetString(4);
+                            employeeModel.Phone = sqlDataReader.GetInt64(5);
+                            employeeModel.Department = sqlDataReader.GetString(6);
+                            employeeModel.Address = sqlDataReader.GetString(7);
+                            employeeModel.Deductions = sqlDataReader.GetDouble(8);
+                            employeeModel.TaxablePay = sqlDataReader.GetDouble(9);
+                            employeeModel.IncomeTax = sqlDataReader.GetDouble(10);
+                            employeeModel.NetPay = sqlDataReader.GetDouble(11);
+                            Console.WriteLine("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}", employeeModel.ID, employeeModel.Name, employeeModel.BasicPay,
+                                employeeModel.StartDate, employeeModel.gender, employeeModel.Phone, employeeModel.Department, employeeModel.Address, employeeModel.Deductions
+                                , employeeModel.TaxablePay, employeeModel.IncomeTax, employeeModel.NetPay);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data found");
+                    }
+                    this.connection.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
     }
 }
